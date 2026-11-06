@@ -1,0 +1,412 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #243247;
+        }
+
+        .topbar {
+            background: #173b65;
+            color: white;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .topbar h2 {
+            font-size: 23px;
+        }
+
+        .topbar select {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .hero {
+            min-height: 230px;
+            background:
+                linear-gradient(rgba(12, 37, 65, 0.72),
+                rgba(12, 37, 65, 0.72)),
+                url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 35px 20px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 0 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #173b65;
+            margin-bottom: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #33465c;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5df;
+            border-radius: 6px;
+            font-size: 15px;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1769aa;
+            box-shadow: 0 0 4px rgba(23, 105, 170, 0.25);
+        }
+
+        .student-select {
+            margin-bottom: 22px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #1769aa;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #104b7c;
+        }
+
+        .refresh-btn {
+            margin-top: 10px;
+            background: #16805d;
+        }
+
+        .refresh-btn:hover {
+            background: #106447;
+        }
+
+        .message {
+            margin: 15px 0;
+            line-height: 1.5;
+            color: #526477;
+        }
+
+        .footer {
+            background: #173b65;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .topbar select {
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>Student Management System</h2>
+
+        <select onchange="navigatePage(this.value)">
+            <option value="">-- Navigate to Page --</option>
+            <option value="index.html">Home</option>
+            <option value="insert.html">Insert Student</option>
+            <option value="list.html">All Students</option>
+            <option value="listOne.html">Search Student</option>
+            <option value="update.html">Update Student</option>
+            <option value="delete.html">Delete Student</option>
+        </select>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Update Student Details</h1>
+            <p>Select an existing student and update their information.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="card">
+            <h2>Update Student Record</h2>
+
+            <div class="student-select">
+                <label for="existingStudents">
+                    Select Existing Student (ID - Name)
+                </label>
+
+                <select id="existingStudents" onchange="fillStudentDetails()">
+                    <option value="">-- Select Student --</option>
+                </select>
+
+                <button type="button" class="refresh-btn"
+                        onclick="loadStudents()">
+                    Refresh Students
+                </button>
+            </div>
+
+            <form id="updateForm">
+                <div class="form-group">
+                    <label for="sno">Student ID</label>
+                    <input type="number" id="sno" required readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Student Name</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="total">Total Marks</label>
+                    <input type="number" id="total" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" required>
+                </div>
+
+                <button type="submit">Update Student</button>
+            </form>
+
+            <p id="message" class="message">
+                Select a student to load their details.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Student Management System | HTML, CSS, JavaScript, Node.js & MySQL</p>
+    </footer>
+
+    <script>
+        function navigatePage(page) {
+            if (page) {
+                window.location.href = page;
+            }
+        }
+
+        let studentsData = [];
+
+        async function loadStudents() {
+            const dropdown = document.getElementById("existingStudents");
+            const message = document.getElementById("message");
+
+            dropdown.innerHTML =
+                '<option value="">-- Select Student --</option>';
+
+            message.textContent = "Loading students...";
+            studentsData = [];
+
+            try {
+                const response = await fetch("/students");
+
+                if (!response.ok) {
+                    throw new Error("Unable to load students.");
+                }
+
+                const data = await response.json();
+
+                if (!Array.isArray(data)) {
+                    throw new Error("Expected an array of students.");
+                }
+
+                studentsData = data;
+
+                studentsData.forEach(function(student, index) {
+                    const option = document.createElement("option");
+
+                    option.value = index;
+                    option.textContent =
+                        student.student_id + " - " + student.student_name;
+
+                    dropdown.appendChild(option);
+                });
+
+                message.textContent = studentsData.length
+                    ? "Choose a student from the dropdown."
+                    : "No student records found.";
+
+            } catch (error) {
+                message.textContent =
+                    "Could not load students. Check your Node.js server and GET /students API.";
+                console.error(error);
+            }
+        }
+
+        function fillStudentDetails() {
+            const selectedIndex =
+                document.getElementById("existingStudents").value;
+
+            if (selectedIndex === "") {
+                document.getElementById("updateForm").reset();
+                document.getElementById("sno").value = "";
+                return;
+            }
+
+            const student = studentsData[Number(selectedIndex)];
+
+            if (!student) {
+                return;
+            }
+
+            document.getElementById("sno").value =
+                student.student_id ?? "";
+
+            document.getElementById("name").value =
+                student.student_name ?? "";
+
+            document.getElementById("total").value =
+                student.total ?? "";
+
+            document.getElementById("phone").value =
+                student.phone ?? "";
+
+            document.getElementById("age").value =
+                student.age ?? "";
+
+            document.getElementById("message").textContent =
+                "Student details loaded. Make changes and click Update Student.";
+        }
+
+        document.getElementById("updateForm").addEventListener(
+            "submit",
+            async function(event) {
+                event.preventDefault();
+
+                const studentId = document.getElementById("sno").value;
+
+                if (!studentId) {
+                    alert("Please select a student first.");
+                    return;
+                }
+
+                const student = {
+                    sno: studentId,
+                    name: document.getElementById("name").value.trim(),
+                    total: document.getElementById("total").value,
+                    phone: document.getElementById("phone").value.trim(),
+                    age: document.getElementById("age").value
+                };
+
+                try {
+                    // This URL must match your backend PUT route.
+                    const response = await fetch(
+                        "/students/" + encodeURIComponent(studentId),
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(student)
+                        }
+                    );
+
+                    const result = await response.json().catch(() => ({}));
+
+                    if (!response.ok) {
+                        throw new Error(
+                            result.message || "Student update failed."
+                        );
+                    }
+
+                    document.getElementById("message").textContent =
+                        "Student updated successfully!";
+
+                    alert("Student updated successfully!");
+
+                    await loadStudents();
+
+                } catch (error) {
+                    document.getElementById("message").textContent =
+                        "Update failed: " + error.message +
+                        " Check your backend PUT route.";
+
+                    console.error(error);
+                }
+            }
+        );
+
+        window.addEventListener("DOMContentLoaded", loadStudents);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System | Home</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            background: #102d50;
+            color: white;
+            padding: 17px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links select {
+            padding: 11px 14px;
+            border: none;
+            border-radius: 7px;
+            background: white;
+            color: #102d50;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Main background image */
+        .hero {
+            min-height: 420px;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(9, 29, 55, 0.88),
+                    rgba(9, 29, 55, 0.38)
+                ),
+                url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1800&q=85");
+
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 55px 8%;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #7dd3fc;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #e2e8f0;
+        }
+
+        .hero-button {
+            display: inline-block;
+            text-decoration: none;
+            background: #0ea5e9;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .hero-button:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+        }
+
+        /* Main page buttons */
+        .services {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 55px 22px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            color: #102d50;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 13px;
+            padding: 28px 23px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12);
+        }
+
+        .icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+        }
+
+        .blue {
+            background: #dbeafe;
+        }
+
+        .green {
+            background: #d1fae5;
+        }
+
+        .purple {
+            background: #ede9fe;
+        }
+
+        .orange {
+            background: #ffedd5;
+        }
+
+        .red {
+            background: #fee2e2;
+        }
+
+        .service-card h3 {
+            color: #102d50;
+            font-size: 21px;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+            min-height: 48px;
+            margin-bottom: 22px;
+        }
+
+        .card-button {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            background: #1769aa;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .card-button:hover {
+            background: #104b7c;
+        }
+
+        .green-button {
+            background: #16805d;
+        }
+
+        .green-button:hover {
+            background: #106447;
+        }
+
+        .orange-button {
+            background: #c76b16;
+        }
+
+        .orange-button:hover {
+            background: #9a4c0b;
+        }
+
+        .red-button {
+            background: #c62828;
+        }
+
+        .red-button:hover {
+            background: #991b1b;
+        }
+
+        .purple-button {
+            background: #6d45b8;
+        }
+
+        .purple-button:hover {
+            background: #523394;
+        }
+
+        /* Information banner */
+        .info-banner {
+            margin-top: 40px;
+            padding: 28px;
+            border-radius: 12px;
+            background: #dcecfb;
+            text-align: center;
+        }
+
+        .info-banner h3 {
+            color: #102d50;
+            margin-bottom: 10px;
+            font-size: 23px;
+        }
+
+        .info-banner p {
+            color: #475569;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            background: #102d50;
+            color: white;
+            text-align: center;
+            padding: 24px 15px;
+            line-height: 1.8;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #dbeafe;
+        }
+
+        @media (max-width: 900px) {
+            .card-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .logo {
+                text-align: center;
+                font-size: 20px;
+            }
+
+            .nav-links select {
+                width: 100%;
+            }
+
+            .hero {
+                min-height: 350px;
+                padding: 40px 23px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading h2 {
+                font-size: 27px;
+            }
+
+            .services {
+                padding: 38px 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🎓 Student Management System</div>
+
+        <div class="nav-links">
+            <select onchange="navigatePage(this.value)">
+                <option value="">-- Navigate to Page --</option>
+                <option value="index.html">Home</option>
+                <option value="insert.html">Insert Student</option>
+                <option value="list.html">All Students</option>
+                <option value="listOne.html">Search Student</option>
+                <option value="update.html">Update Student</option>
+                <option value="delete.html">Delete Student</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Background image hero section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to the<br>
+                <span>Student Management System</span>
+            </h1>
+
+            <p>
+                Manage student information easily in one place.
+                Add new students, view records, search details,
+                update information, and delete records through
+                a simple and user-friendly interface.
+            </p>
+
+            <a href="insert.html" class="hero-button">
+                + Add New Student
+            </a>
+        </div>
+    </section>
+
+    <!-- All HTML page buttons in the middle -->
+    <main class="services">
+
+        <div class="section-heading">
+            <h2>Student Management Dashboard</h2>
+            <p>Select any option below to perform a student management operation.</p>
+        </div>
+
+        <div class="card-container">
+
+            <!-- Insert -->
+            <div class="service-card">
+                <div class="icon blue">➕</div>
+                <h3>Insert Student</h3>
+                <p>Add a new student record with name, marks, phone number and age.</p>
+                <a href="insert.html" class="card-button">
+                    Add Student
+                </a>
+            </div>
+
+            <!-- View all -->
+            <div class="service-card">
+                <div class="icon green">📋</div>
+                <h3>All Students</h3>
+                <p>View student records available in your database in a table.</p>
+                <a href="list.html" class="card-button green-button">
+                    View All Students
+                </a>
+            </div>
+
+            <!-- Search -->
+            <div class="service-card">
+                <div class="icon purple">🔍</div>
+                <h3>Search Student</h3>
+                <p>Find a particular student and view their complete information.</p>
+                <a href="listOne.html" class="card-button purple-button">
+                    Search Student
+                </a>
+            </div>
+
+            <!-- Update -->
+            <div class="service-card">
+                <div class="icon orange">✏️</div>
+                <h3>Update Student</h3>
+                <p>Modify existing student details whenever information changes.</p>
+                <a href="update.html" class="card-button orange-button">
+                    Update Details
+                </a>
+            </div>
+
+            <!-- Delete -->
+            <div class="service-card">
+                <div class="icon red">🗑️</div>
+                <h3>Delete Student</h3>
+                <p>Remove a selected student record after confirming the details.</p>
+                <a href="delete.html" class="card-button red-button">
+                    Delete Student
+                </a>
+            </div>
+
+            <!-- Dashboard info -->
+            <div class="service-card">
+                <div class="icon blue">💻</div>
+                <h3>Database System</h3>
+                <p>This application uses HTML, CSS, JavaScript, Node.js and MySQL.</p>
+                <a href="list.html" class="card-button">
+                    Open Records
+                </a>
+            </div>
+
+        </div>
+
+        <div class="info-banner">
+            <h3>Simple. Organized. Efficient.</h3>
+            <p>
+                Use the dashboard buttons to navigate between pages.
+                Student records are retrieved or modified through your
+                Node.js backend and MySQL database when the API is configured.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>Student Management System</h3>
+        <p>Built with HTML, CSS, JavaScript, Node.js and MySQL</p>
+        <p>Home | Insert | View | Search | Update | Delete</p>
+    </footer>
+
+    <script>
+        function navigatePage(page) {
+            if (page) {
+                window.location.href = page;
+            }
+        }
+    </script>
+
+</body>
+</html>

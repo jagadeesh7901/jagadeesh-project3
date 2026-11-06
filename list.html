@@ -1,0 +1,395 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Students - Student Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #243247;
+        }
+
+        .topbar {
+            background: #173b65;
+            color: white;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .topbar h2 {
+            font-size: 23px;
+        }
+
+        .topbar select {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            max-width: 100%;
+        }
+
+        .hero {
+            min-height: 230px;
+            background:
+                linear-gradient(rgba(12, 37, 65, 0.72),
+                rgba(12, 37, 65, 0.72)),
+                url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1400&q=80");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 35px 20px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            color: #173b65;
+            margin-bottom: 18px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 11px 14px;
+            border-radius: 6px;
+            border: 1px solid #ccd5df;
+            font-size: 15px;
+        }
+
+        #studentDropdown {
+            flex: 1;
+            min-width: 230px;
+            background: white;
+        }
+
+        button {
+            background: #1769aa;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #104b7c;
+        }
+
+        .refresh-btn {
+            background: #16805d;
+        }
+
+        .refresh-btn:hover {
+            background: #106447;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 13px;
+            border: 1px solid #dce3eb;
+            text-align: left;
+        }
+
+        th {
+            background: #173b65;
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f3f7fb;
+        }
+
+        tbody tr:hover {
+            background: #e4effa;
+        }
+
+        .message {
+            margin: 12px 0;
+            color: #526477;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: #173b65;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .topbar select {
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .controls select,
+            .controls button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>Student Management System</h2>
+
+        <select id="pageNavigation"
+                onchange="navigatePage(this.value)">
+            <option value="">-- Navigate to Page --</option>
+            <option value="index.html">Home</option>
+            <option value="insert.html">Insert Student</option>
+            <option value="list.html">All Students</option>
+            <option value="listOne.html">Search Student</option>
+            <option value="update.html">Update Student</option>
+            <option value="delete.html">Delete Student</option>
+        </select>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>All Students</h1>
+            <p>View and manage student records stored in your database.</p>
+        </div>
+    </section>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>Student Records</h2>
+
+            <div class="controls">
+                <select id="studentDropdown">
+                    <option value="">-- Select Student ID and Name --</option>
+                </select>
+
+                <button onclick="showSelectedStudent()">
+                    View Selected Student
+                </button>
+
+                <button class="refresh-btn" onclick="loadStudents()">
+                    Refresh Records
+                </button>
+            </div>
+
+            <p id="message" class="message">
+                Loading student records...
+            </p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Total Marks</th>
+                            <th>Phone</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTable">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Selected Student Details</h2>
+
+            <p id="selectedDetails" class="message">
+                Select a student from the dropdown to view their details.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Student Management System | HTML, CSS, JavaScript, Node.js & MySQL</p>
+    </footer>
+
+    <script>
+        // Change page using the navigation dropdown
+        function navigatePage(page) {
+            if (page) {
+                window.location.href = page;
+            }
+        }
+
+        let studentsData = [];
+
+        // Load students from the backend API
+        async function loadStudents() {
+            const message = document.getElementById("message");
+            const dropdown = document.getElementById("studentDropdown");
+            const table = document.getElementById("studentTable");
+
+            message.textContent = "Loading student records...";
+            dropdown.innerHTML =
+                '<option value="">-- Select Student ID and Name --</option>';
+            table.innerHTML = "";
+            studentsData = [];
+
+            try {
+                const response = await fetch("/students");
+
+                if (!response.ok) {
+                    throw new Error("Unable to fetch student records.");
+                }
+
+                const data = await response.json();
+
+                if (!Array.isArray(data)) {
+                    throw new Error("API response should be a student array.");
+                }
+
+                studentsData = data;
+
+                if (studentsData.length === 0) {
+                    message.textContent = "No student records found.";
+                    return;
+                }
+
+                studentsData.forEach(function(student, index) {
+                    const option = document.createElement("option");
+                    option.value = index;
+                    option.textContent =
+                        student.student_id + " - " + student.student_name;
+
+                    dropdown.appendChild(option);
+
+                    const row = document.createElement("tr");
+
+                    [
+                        student.student_id,
+                        student.student_name,
+                        student.total,
+                        student.phone,
+                        student.age
+                    ].forEach(function(value) {
+                        const cell = document.createElement("td");
+                        cell.textContent =
+                            value === null || value === undefined ? "" : value;
+                        row.appendChild(cell);
+                    });
+
+                    table.appendChild(row);
+                });
+
+                message.textContent =
+                    "Total student records: " + studentsData.length;
+
+            } catch (error) {
+                message.textContent =
+                    "Error loading students. Check that your Node.js server is running and GET /students is working.";
+
+                console.error(error);
+            }
+        }
+
+        // Display details for the selected student
+        function showSelectedStudent() {
+            const selectedIndex =
+                document.getElementById("studentDropdown").value;
+
+            const details = document.getElementById("selectedDetails");
+
+            if (selectedIndex === "") {
+                details.textContent = "Please select a student first.";
+                return;
+            }
+
+            const student = studentsData[Number(selectedIndex)];
+
+            if (!student) {
+                details.textContent = "Student record not found.";
+                return;
+            }
+
+            details.textContent =
+                "Student ID: " + (student.student_id ?? "") +
+                " | Name: " + (student.student_name ?? "") +
+                " | Total Marks: " + (student.total ?? "") +
+                " | Phone: " + (student.phone ?? "") +
+                " | Age: " + (student.age ?? "");
+        }
+
+        // Load records when the page opens
+        window.addEventListener("DOMContentLoaded", loadStudents);
+    </script>
+
+</body>
+</html>

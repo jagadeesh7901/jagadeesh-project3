@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Student | StudentDesk</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .topbar {
+            background: #14213d;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: #38bdf8;
+        }
+
+        .nav-select {
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: white;
+        }
+
+        main {
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px #0000000d;
+        }
+
+        .hero-copy {
+            padding: 30px;
+            align-self: center;
+        }
+
+        .hero-copy h1 {
+            color: #14213d;
+        }
+
+        .hero-copy p {
+            line-height: 1.7;
+            color: #64748b;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .content-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px #0000000d;
+            margin-bottom: 25px;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quick-links a {
+            padding: 10px;
+            background: #eff6ff;
+            border-radius: 7px;
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        .quick-links a:hover {
+            background: #dbeafe;
+        }
+
+        .search-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 22px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        select, input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: white;
+            font-size: 15px;
+        }
+
+        button {
+            padding: 11px 18px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 7px;
+            cursor: pointer;
+            margin: 8px 5px 8px 0;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-button {
+            background: #475569;
+        }
+
+        .secondary-button:hover {
+            background: #334155;
+        }
+
+        .student-details {
+            display: none;
+            margin-top: 22px;
+            padding: 20px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .student-details h3 {
+            color: #1d4ed8;
+            margin-top: 0;
+        }
+
+        .detail-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .message {
+            margin-top: 12px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        @media(max-width: 700px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero img {
+                height: 200px;
+            }
+
+            .content-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE NAVIGATION -->
+    <div class="topbar">
+        <div class="brand">Student<span>Desk</span></div>
+
+        <select class="nav-select"
+                aria-label="Navigate to page"
+                onchange="if(this.value) location.href=this.value">
+
+            <option value="">Choose a page</option>
+            <option value="index.html">Home</option>
+            <option value="list.html">List Students</option>
+            <option value="listOne.html" selected>Search Student</option>
+            <option value="insert.html">Insert Student</option>
+            <option value="update.html">Update Student</option>
+            <option value="delete.html">Delete Student</option>
+        </select>
+    </div>
+
+    <main>
+
+        <!-- SEARCH STUDENT HERO SECTION -->
+        <section class="hero">
+            <div class="hero-copy">
+                <h1>SEARCH STUDENT</h1>
+                <p>
+                    Search and view student information stored
+                    in your MySQL database.
+                </p>
+            </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80"
+                alt="Using a computer to search information">
+        </section>
+
+        <section class="content-card">
+
+            <div class="quick-links">
+                <a href="index.html">Home</a>
+                <a href="list.html">List Students</a>
+                <a href="listOne.html">Search Student</a>
+                <a href="insert.html">Insert Student</a>
+                <a href="update.html">Update Student</a>
+                <a href="delete.html">Delete Student</a>
+            </div>
+
+            <hr>
+
+            <h2>Find a Student</h2>
+            <p>Select a student from the records loaded from your database.</p>
+
+            <div class="search-box">
+                <label for="studentDropdown">
+                    Select Student (Student ID - Name)
+                </label>
+
+                <select id="studentDropdown">
+                    <option value="">Loading students...</option>
+                </select>
+
+                <br>
+
+                <button onclick="searchStudent()">
+                    Search Student
+                </button>
+
+                <button class="secondary-button" onclick="loadStudents()">
+                    Refresh Students
+                </button>
+
+                <p id="message" class="message">
+                    Loading student records...
+                </p>
+            </div>
+
+            <!-- SELECTED STUDENT DETAILS -->
+            <div id="studentDetails" class="student-details">
+                <h3>Student Details</h3>
+
+                <div class="detail-row">
+                    <strong>Student ID:</strong>
+                    <span id="detailId"></span>
+                </div>
+
+                <div class="detail-row">
+                    <strong>Student Name:</strong>
+                    <span id="detailName"></span>
+                </div>
+
+                <div class="detail-row">
+                    <strong>Total Marks:</strong>
+                    <span id="detailTotal"></span>
+                </div>
+
+                <div class="detail-row">
+                    <strong>Phone Number:</strong>
+                    <span id="detailPhone"></span>
+                </div>
+
+                <div class="detail-row">
+                    <strong>Age:</strong>
+                    <span id="detailAge"></span>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div class="footer">
+        StudentDesk - Student Management System
+    </div>
+
+    <script>
+        let studentsData = [];
+
+        // Load students from the Node.js / MySQL API
+        async function loadStudents() {
+            const dropdown =
+                document.getElementById("studentDropdown");
+
+            const message =
+                document.getElementById("message");
+
+            const details =
+                document.getElementById("studentDetails");
+
+            dropdown.innerHTML =
+                '<option value="">Loading students...</option>';
+
+            details.style.display = "none";
+            message.textContent = "Loading student records...";
+
+            try {
+                const response = await fetch("/students");
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Server error: " + response.status
+                    );
+                }
+
+                const students = await response.json();
+
+                if (!Array.isArray(students)) {
+                    throw new Error(
+                        "The API did not return a student list."
+                    );
+                }
+
+                studentsData = students;
+                dropdown.innerHTML = "";
+
+                if (studentsData.length === 0) {
+                    dropdown.innerHTML =
+                        '<option value="">No students found</option>';
+
+                    message.textContent =
+                        "MySQL database lo student records levu.";
+
+                    return;
+                }
+
+                const placeholder = document.createElement("option");
+                placeholder.value = "";
+                placeholder.textContent = "-- Select Student --";
+                dropdown.appendChild(placeholder);
+
+                studentsData.forEach(function(student, index) {
+                    const option = document.createElement("option");
+
+                    option.value = index;
+                    option.textContent =
+                        student.student_id + " - " +
+                        student.student_name;
+
+                    dropdown.appendChild(option);
+                });
+
+                message.textContent =
+                    studentsData.length +
+                    " student record(s) database nunchi load ayyayi.";
+
+            } catch (error) {
+                console.error("Loading error:", error);
+
+                dropdown.innerHTML =
+                    '<option value="">Unable to load students</option>';
+
+                message.textContent =
+                    "Students load kaledu. Node.js server mariyu /students API check cheyyi.";
+            }
+        }
+
+        // Display the selected student's information
+        function searchStudent() {
+            const dropdown =
+                document.getElementById("studentDropdown");
+
+            const message =
+                document.getElementById("message");
+
+            const selectedIndex = dropdown.value;
+
+            if (selectedIndex === "") {
+                document.getElementById("studentDetails").style.display =
+                    "none";
+
+                message.textContent =
+                    "Mundhu dropdown lo oka student select cheyyi.";
+
+                return;
+            }
+
+            const student = studentsData[Number(selectedIndex)];
+
+            if (!student) {
+                message.textContent =
+                    "Student record dorakaledu. Refresh chesi try cheyyi.";
+                return;
+            }
+
+            document.getElementById("detailId").textContent =
+                student.student_id ?? "N/A";
+
+            document.getElementById("detailName").textContent =
+                student.student_name ?? "N/A";
+
+            document.getElementById("detailTotal").textContent =
+                student.total ?? "N/A";
+
+            document.getElementById("detailPhone").textContent =
+                student.phone ?? "N/A";
+
+            document.getElementById("detailAge").textContent =
+                student.age ?? "N/A";
+
+            document.getElementById("studentDetails").style.display =
+                "block";
+
+            message.textContent = "Student record found successfully.";
+        }
+
+        // Load records when the page opens
+        loadStudents();
+    </script>
+
+</body>
+</html>

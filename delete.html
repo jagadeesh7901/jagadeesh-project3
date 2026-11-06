@@ -1,0 +1,419 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Student</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #243247;
+        }
+
+        .topbar {
+            background: #173b65;
+            color: white;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .topbar h2 {
+            font-size: 23px;
+        }
+
+        .topbar select {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .hero {
+            min-height: 230px;
+            background:
+                linear-gradient(rgba(70, 15, 20, 0.72),
+                rgba(70, 15, 20, 0.72)),
+                url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 35px 20px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #173b65;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #33465c;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5df;
+            border-radius: 6px;
+            font-size: 15px;
+            background: white;
+            margin-bottom: 16px;
+        }
+
+        .details {
+            background: #f3f7fb;
+            border: 1px solid #dce3eb;
+            border-radius: 8px;
+            padding: 18px;
+            margin: 15px 0 20px;
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+
+        .details p {
+            margin-bottom: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background: #c62828;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #991b1b;
+        }
+
+        .refresh-btn {
+            background: #1769aa;
+            margin-bottom: 8px;
+        }
+
+        .refresh-btn:hover {
+            background: #104b7c;
+        }
+
+        .message {
+            margin-top: 15px;
+            line-height: 1.6;
+            color: #526477;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #e58b19;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: #173b65;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .topbar select {
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>Student Management System</h2>
+
+        <select onchange="navigatePage(this.value)">
+            <option value="">-- Navigate to Page --</option>
+            <option value="index.html">Home</option>
+            <option value="insert.html">Insert Student</option>
+            <option value="list.html">All Students</option>
+            <option value="listOne.html">Search Student</option>
+            <option value="update.html">Update Student</option>
+            <option value="delete.html">Delete Student</option>
+        </select>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Delete Student</h1>
+            <p>Select a student record you want to remove.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="card">
+            <h2>Delete Student Record</h2>
+
+            <label for="studentDropdown">
+                Select Student (ID - Name)
+            </label>
+
+            <select id="studentDropdown" onchange="showDetails()">
+                <option value="">-- Select Student --</option>
+            </select>
+
+            <button type="button" class="refresh-btn"
+                    onclick="loadStudents()">
+                Refresh Students
+            </button>
+
+            <div class="details" id="studentDetails">
+                <p>Select a student to view their details.</p>
+            </div>
+
+            <div class="warning">
+                <strong>Warning:</strong> Delete chesina student record
+                database nunchi permanently remove avvachu.
+                Delete cheyyadaniki mundu student ID verify cheyyi.
+            </div>
+
+            <button type="button" onclick="deleteStudent()">
+                Delete Selected Student
+            </button>
+
+            <p id="message" class="message">
+                Student records load avuthunnayi...
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Student Management System | HTML, CSS, JavaScript, Node.js & MySQL</p>
+    </footer>
+
+    <script>
+        function navigatePage(page) {
+            if (page) {
+                window.location.href = page;
+            }
+        }
+
+        let studentsData = [];
+
+        async function loadStudents() {
+            const dropdown = document.getElementById("studentDropdown");
+            const details = document.getElementById("studentDetails");
+            const message = document.getElementById("message");
+
+            dropdown.innerHTML =
+                '<option value="">-- Select Student --</option>';
+
+            details.textContent = "Select a student to view their details.";
+            message.textContent = "Loading students...";
+            studentsData = [];
+
+            try {
+                const response = await fetch("/students");
+
+                if (!response.ok) {
+                    throw new Error("Unable to load student records.");
+                }
+
+                const data = await response.json();
+
+                if (!Array.isArray(data)) {
+                    throw new Error("Expected an array of student records.");
+                }
+
+                studentsData = data;
+
+                studentsData.forEach(function(student, index) {
+                    const option = document.createElement("option");
+                    option.value = index;
+                    option.textContent =
+                        student.student_id + " - " + student.student_name;
+                    dropdown.appendChild(option);
+                });
+
+                message.textContent = studentsData.length
+                    ? "Total student records: " + studentsData.length
+                    : "No student records found.";
+
+            } catch (error) {
+                message.textContent =
+                    "Unable to load students. Check your Node.js server and GET /students API.";
+                console.error(error);
+            }
+        }
+
+        function showDetails() {
+            const selectedIndex =
+                document.getElementById("studentDropdown").value;
+
+            const details = document.getElementById("studentDetails");
+
+            if (selectedIndex === "") {
+                details.textContent = "Select a student to view their details.";
+                return;
+            }
+
+            const student = studentsData[Number(selectedIndex)];
+
+            if (!student) {
+                details.textContent = "Student record not found.";
+                return;
+            }
+
+            details.replaceChildren();
+
+            const fields = [
+                ["Student ID", student.student_id],
+                ["Student Name", student.student_name],
+                ["Total Marks", student.total],
+                ["Phone", student.phone],
+                ["Age", student.age]
+            ];
+
+            fields.forEach(function(field) {
+                const paragraph = document.createElement("p");
+                const label = document.createElement("strong");
+
+                label.textContent = field[0] + ": ";
+                paragraph.appendChild(label);
+                paragraph.appendChild(
+                    document.createTextNode(
+                        field[1] === null || field[1] === undefined
+                            ? ""
+                            : String(field[1])
+                    )
+                );
+
+                details.appendChild(paragraph);
+            });
+
+            document.getElementById("message").textContent =
+                "Please verify the student details before deleting.";
+        }
+
+        async function deleteStudent() {
+            const dropdown = document.getElementById("studentDropdown");
+            const message = document.getElementById("message");
+            const selectedIndex = dropdown.value;
+
+            if (selectedIndex === "") {
+                alert("Please select a student first.");
+                return;
+            }
+
+            const student = studentsData[Number(selectedIndex)];
+
+            if (!student) {
+                alert("Student record not found.");
+                return;
+            }
+
+            const confirmed = confirm(
+                "Are you sure you want to delete student " +
+                student.student_id + " - " + student.student_name + "?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                // This URL must match your backend DELETE route.
+                const response = await fetch(
+                    "/students/" +
+                    encodeURIComponent(student.student_id),
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+                const result = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.message || "Student deletion failed."
+                    );
+                }
+
+                message.textContent = "Student deleted successfully!";
+                alert("Student deleted successfully!");
+
+                await loadStudents();
+
+            } catch (error) {
+                message.textContent =
+                    "Delete failed: " + error.message +
+                    " Check your backend DELETE route.";
+
+                console.error(error);
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", loadStudents);
+    </script>
+
+</body>
+</html>

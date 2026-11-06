@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Student</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .topbar {
+            background: #14213d;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand { font-size: 24px; font-weight: bold; }
+        .brand span { color: #38bdf8; }
+
+        .nav-select, input, .student-select {
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: white;
+        }
+
+        main {
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .hero-copy { padding: 30px; align-self: center; }
+        h1 { color: #14213d; }
+
+        .hero img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .content-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px #0000000d;
+            overflow-x: auto;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quick-links a {
+            padding: 10px;
+            background: #eff6ff;
+            border-radius: 7px;
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        button {
+            padding: 11px 18px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 7px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover { background: #1d4ed8; }
+
+        .field { margin: 14px 0; }
+
+        .field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .field input {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .student-select {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .database-box {
+            padding: 16px;
+            margin: 20px 0;
+            background: #eff6ff;
+            border-radius: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        @media(max-width: 700px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero img { height: 190px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="brand">Student<span>Desk</span></div>
+
+        <select class="nav-select"
+                aria-label="Navigate to page"
+                onchange="if(this.value) location.href=this.value">
+            <option value="">Choose a page</option>
+            <option value="index.html">Home</option>
+            <option value="list.html">List Students</option>
+            <option value="listOne.html">Search Student</option>
+            <option value="insert.html">Insert Student</option>
+            <option value="update.html">Update Student</option>
+            <option value="delete.html">Delete Student</option>
+        </select>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <h1>INSERT STUDENT</h1>
+                <p>Add a new student record to the database.</p>
+            </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1000&q=80"
+                alt="Student writing notes">
+        </section>
+
+        <section class="content-card">
+
+            <div class="quick-links">
+                <a href="index.html">Home</a>
+                <a href="list.html">List Students</a>
+                <a href="listOne.html">Search Student</a>
+                <a href="insert.html">Insert Student</a>
+                <a href="update.html">Update Student</a>
+                <a href="delete.html">Delete Student</a>
+            </div>
+
+            <hr>
+
+            <!-- DROPDOWN: STUDENTS FROM DATABASE -->
+            <div class="database-box">
+                <label for="existingStudents">
+                    Existing Students in MySQL Database
+                </label>
+
+                <br><br>
+
+                <select id="existingStudents"
+                        class="student-select"
+                        onchange="showStudentDetails()">
+                    <option value="">Loading students...</option>
+                </select>
+
+                <p id="databaseMessage">
+                    Loading records from database...
+                </p>
+            </div>
+
+            <div class="field">
+                <label for="sno">Student Number</label>
+                <input type="number" id="sno">
+            </div>
+
+            <div class="field">
+                <label for="name">Student Name</label>
+                <input type="text" id="name">
+            </div>
+
+            <div class="field">
+                <label for="total">Total Marks</label>
+                <input type="number" id="total">
+            </div>
+
+            <div class="field">
+                <label for="phone">Student Phone Number</label>
+                <input type="tel" id="phone">
+            </div>
+
+            <div class="field">
+                <label for="age">Student Age</label>
+                <input type="number" id="age">
+            </div>
+
+            <button onclick="saveStudent()">Save</button>
+            <button onclick="location.href='index.html'">
+                Home Page
+            </button>
+        </section>
+    </main>
+
+    <div class="footer">
+        StudentDesk - Student Management System
+    </div>
+
+    <script>
+        // Load existing students from the Node.js API
+        async function loadExistingStudents() {
+            const dropdown =
+                document.getElementById("existingStudents");
+
+            const message =
+                document.getElementById("databaseMessage");
+
+            try {
+                const response = await fetch("/students");
+
+                if (!response.ok) {
+                    throw new Error("HTTP error: " + response.status);
+                }
+
+                const students = await response.json();
+
+                if (!Array.isArray(students)) {
+                    throw new Error("Expected an array of students");
+                }
+
+                dropdown.innerHTML = "";
+
+                if (students.length === 0) {
+                    dropdown.innerHTML =
+                        '<option value="">No students found</option>';
+
+                    message.textContent =
+                        "Database lo student records levu.";
+
+                    return;
+                }
+
+                const placeholder = document.createElement("option");
+                placeholder.value = "";
+                placeholder.textContent = "-- Select Student --";
+                dropdown.appendChild(placeholder);
+
+                students.forEach(function(student) {
+                    const option = document.createElement("option");
+
+                    option.value = student.student_id;
+
+                    option.textContent =
+                        student.student_id + " - " +
+                        student.student_name;
+
+                    // Store the full record for selection
+                    option.dataset.student = JSON.stringify(student);
+
+                    dropdown.appendChild(option);
+                });
+
+                message.textContent =
+                    students.length +
+                    " existing student(s) loaded from database.";
+
+            } catch (error) {
+                console.error(error);
+
+                dropdown.innerHTML =
+                    '<option value="">Unable to load students</option>';
+
+                message.textContent =
+                    "Students load kaledu. Node.js server mariyu /students API check cheyyi.";
+            }
+        }
+
+        // Selecting an existing student fills the form
+        function showStudentDetails() {
+            const dropdown =
+                document.getElementById("existingStudents");
+
+            const selectedOption =
+                dropdown.options[dropdown.selectedIndex];
+
+            if (!selectedOption || !selectedOption.dataset.student) {
+                return;
+            }
+
+            const student = JSON.parse(
+                selectedOption.dataset.student
+            );
+
+            document.getElementById("sno").value =
+                student.student_id ?? "";
+
+            document.getElementById("name").value =
+                student.student_name ?? "";
+
+            document.getElementById("total").value =
+                student.total ?? "";
+
+            document.getElementById("phone").value =
+                student.phone ?? "";
+
+            document.getElementById("age").value =
+                student.age ?? "";
+        }
+
+        // Save a student using the existing POST API
+        function saveStudent() {
+            const sno = document.getElementById("sno").value.trim();
+            const name = document.getElementById("name").value.trim();
+            const total = document.getElementById("total").value;
+            const phone = document.getElementById("phone").value.trim();
+            const age = document.getElementById("age").value;
+
+            if (!sno || !name || total === "") {
+                alert("Student Number, Student Name, Total Marks enter cheyyi.");
+                return;
+            }
+
+            fetch("/students", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    sno: sno,
+                    name: name,
+                    total: total,
+                    phone: phone,
+                    age: age
+                })
+            })
+            .then(async response => {
+                const message = await response.text();
+
+                if (!response.ok) {
+                    throw new Error(message || "Unable to save student.");
+                }
+
+                return message;
+            })
+            .then(message => {
+                alert(message);
+                location.href = "index.html";
+            })
+            .catch(error => {
+                alert("Error: " + error.message);
+                console.error(error);
+            });
+        }
+
+        // Run when the page opens
+        loadExistingStudents();
+    </script>
+
+</body>
+</html>
